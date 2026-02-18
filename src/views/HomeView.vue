@@ -53,7 +53,7 @@ onMounted(async () => {
           <img :src="lugar.current.condition.icon" class="card-image-top">
           <div class="card-body">
             <h5 class="card-title">{{ lugar.location.name }}</h5>
-            <p class="card-text">{{ tempSystem ? lugar.current.temp_c : lugar.current.temp_f }}°C</p>
+            <p class="card-text">{{ tempSystem ? `${lugar.current.temp_c}°C` : `${lugar.current.temp_f}°F` }}</p>
             <p class="card-text">{{ lugar.current.condition.text }}</p>
           </div>
           <div class="card-footer bg-transparent border-0">

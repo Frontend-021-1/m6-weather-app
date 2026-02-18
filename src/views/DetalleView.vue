@@ -21,7 +21,8 @@ onMounted(async () => {
 
 <template>
   <main class="container my-4">
-    <RouterLink :to="{ name: 'Home' }">Volver</RouterLink>
+    <RouterLink :to="{ name: 'Home' }">← Volver</RouterLink>
+
     <section class="row">
       <div class="col col-lg-8" id="lugar">
         <h1>El tiempo en: {{ clima.location?.name }}</h1>
@@ -37,10 +38,10 @@ onMounted(async () => {
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">{{
                     clima.current?.condition.text
-                    }}</li>
+                  }}</li>
                   <li class="list-group-item">Temperatura: {{
                     clima.current?.temp_c
-                    }}°C</li>
+                  }}°C</li>
                 </ul>
                 <p class="card-text">
                   <small class="text-body-secondary">Última actualización hace 3 minutos</small>
@@ -57,16 +58,20 @@ onMounted(async () => {
         <!-- Card pronóstico -->
         <div class="card">
           <ul class="list-group list-group-flush" id="pronosticoSemanal">
-            <!-- Pronóstico de la ciudad se mostrará dinámicamente -->
-            <li class="list-group-item" v-for="dia in clima.forecast?.forecastday" :key="dia.date">
-              <img :src="dia.day.condition.icon" class="card-image-top"> {{ dia.day.condition.text }}: {{
-                dia.day.maxtemp_c
-              }}°C
-            </li>
+            <TransitionGroup name="fade">
+              <!-- Pronóstico de la ciudad se mostrará dinámicamente -->
+              <li class="list-group-item" v-for="dia in clima.forecast?.forecastday" :key="dia.date">
+                <img :src="dia.day.condition.icon" class="card-image-top"> {{ dia.day.condition.text }}: {{
+                  dia.day.maxtemp_c
+                }}°C
+              </li>
+            </TransitionGroup>
           </ul>
         </div>
       </div>
     </section>
+
+
     <section class="mt-5">
       <h3>Estadísticas de la semana</h3>
       <!-- Temperatura mínima, máxima y promedio de la semana -->
@@ -114,4 +119,14 @@ onMounted(async () => {
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
