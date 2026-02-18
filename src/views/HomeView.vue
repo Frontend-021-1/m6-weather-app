@@ -48,22 +48,44 @@ onMounted(async () => {
     </div>
     <div class="row row-cols-1 row-cols-md-4 row-cols-lg-6 g-4 justify-content-center" id="lugares">
       <!-- Acá se insertarán dinámicamente los lugares -->
-      <div class="col" v-for="lugar in climasFiltrados" :key="`${lugar.location.lat}-${lugar.location.lon}`">
-        <div class="card h-100 text-center">
-          <img :src="lugar.current.condition.icon" class="card-image-top">
-          <div class="card-body">
-            <h5 class="card-title">{{ lugar.location.name }}</h5>
-            <p class="card-text">{{ tempSystem ? `${lugar.current.temp_c}°C` : `${lugar.current.temp_f}°F` }}</p>
-            <p class="card-text">{{ lugar.current.condition.text }}</p>
-          </div>
-          <div class="card-footer bg-transparent border-0">
-            <RouterLink class="card-link" :to="{ name: 'Detalle', params: { ciudad: lugar.location.name } }">Ver detalle
-            </RouterLink>
+      <TransitionGroup name="slide-fade">
+        <div class="col" v-for="lugar in climasFiltrados" :key="`${lugar.location.lat}-${lugar.location.lon}`">
+          <div class="card h-100 text-center">
+            <img :src="lugar.current.condition.icon" class="card-image-top">
+            <div class="card-body">
+              <h5 class="card-title">{{ lugar.location.name }}</h5>
+              <p class="card-text">{{ tempSystem ? `${lugar.current.temp_c}°C` : `${lugar.current.temp_f}°F` }}</p>
+              <p class="card-text">{{ lugar.current.condition.text }}</p>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+              <RouterLink class="card-link" :to="{ name: 'Detalle', params: { ciudad: lugar.location.name } }">Ver
+                detalle
+              </RouterLink>
+            </div>
           </div>
         </div>
-      </div>
+      </TransitionGroup>
     </div>
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+</style>

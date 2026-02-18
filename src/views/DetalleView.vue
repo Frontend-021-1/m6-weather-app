@@ -27,29 +27,32 @@ onMounted(async () => {
       <div class="col col-lg-8" id="lugar">
         <h1>El tiempo en: {{ clima.location?.name }}</h1>
         <!-- Contenido del lugar se mostrará dinámicamente -->
-        <div class="card mb-3">
-          <div class="row g-0">
-            <div class="col-lg-4 d-flex justify-content-center align-items-center">
-              <img :src="clima.current?.condition.icon" class="card-image-top">
-            </div>
-            <div class="col-lg-8">
-              <div class="card-body">
-                <h2 class="card-title">{{ clima.location?.name }}</h2>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">{{
-                    clima.current?.condition.text
-                  }}</li>
-                  <li class="list-group-item">Temperatura: {{
-                    clima.current?.temp_c
-                  }}°C</li>
-                </ul>
-                <p class="card-text">
-                  <small class="text-body-secondary">Última actualización hace 3 minutos</small>
-                </p>
+        <Transition name="slide-fade">
+          <div class="card mb-3" v-if="clima.location">
+            <div class="row g-0">
+              <div class="col-lg-4 d-flex justify-content-center align-items-center">
+                <img :src="clima.current?.condition.icon" class="card-image-top">
+              </div>
+              <div class="col-lg-8">
+                <div class="card-body">
+                  <h2 class="card-title">{{ clima.location?.name }}</h2>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{
+                      clima.current?.condition.text
+                    }}</li>
+                    <li class="list-group-item">Temperatura: {{
+                      clima.current?.temp_c
+                    }}°C</li>
+                  </ul>
+                  <p class="card-text">
+                    <small class="text-body-secondary">Última actualización hace 3 minutos</small>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </Transition>
+
       </div>
 
       <div class="col col-lg-4">
@@ -120,6 +123,20 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
