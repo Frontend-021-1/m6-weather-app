@@ -10,11 +10,14 @@ const props = defineProps({
 
 const clima = ref([])
 const estadisticas = ref([])
+const loading = ref(false)
 
 onMounted(async () => {
+  loading.value = true
   await weather.fetchWeatherByName(props.ciudad)
   clima.value = weather.cityForecast
   estadisticas.value = weather.estadisticasPronostico()
+  loading.value = false
   console.log(estadisticas.value)
 })
 </script>
@@ -52,6 +55,8 @@ onMounted(async () => {
             </div>
           </div>
         </Transition>
+
+
 
       </div>
 
