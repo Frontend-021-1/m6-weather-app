@@ -1,9 +1,24 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { Icon } from '@iconify/vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+const store = useStore()
+const router = useRouter()
+
+// Acceso a constantes del store
+const user = computed(() => store.state.user)
+const authIsReady = computed(() => store.state.authIsReady)
 
 const emit = defineEmits(['cambio-busqueda'])
 
 const busquedaFiltro = ref('')
+
+const handleLogout = async () => {
+  await store.dispatch('logout')
+  router.push({ name: 'Login' })
+}
 
 </script>
 
@@ -22,12 +37,37 @@ const busquedaFiltro = ref('')
       </form>
       <div class="collapse navbar-collapse" id="navbarNav">
         <!-- ms-auto para que links se muestren a la derecha -->
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <RouterLink class="nav-link active" :to="{ name: 'Home' }">Inicio</RouterLink>
-          </li>
-
-        </ul>
+        <template v-if="authIsReady">
+          <ul class="navbar-nav ms-auto align-items-center">
+            <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" :to="{ name: 'Home' }">Inicio</RouterLink>
+            </li>
+            <template v-if="!user">
+              <li class="nav-item">
+                <RouterLink class="nav-link" active-class="active" :to="{ name: 'Login' }">Login</RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink class="nav-link" active-class="active" :to="{ name: 'Signup' }">Registrarse</RouterLink>
+              </li>
+            </template>
+            <template v-else>
+              <p class="small muted ms-4 mb-0">Hola, {{ user.displayName }}</p>
+              <li class="nav-item">
+                <RouterLink class="nav-link" active-class="active" :to="{ name: 'Profile' }">Perfil</RouterLink>
+              </li>
+              <li class="nav-item">
+                <button class="btn" aria-label="Logout" @click="handleLogout">
+                  <Icon icon="lucide:log-out" width="20" height="20" class="text-danger" />
+                </button>
+              </li>
+            </template>
+          </ul>
+        </template>
+        <template v-else>
+          <div class="ms-auto spinner-border spinner-border-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </template>
       </div>
     </div>
   </nav>

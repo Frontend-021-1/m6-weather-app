@@ -24,6 +24,10 @@ a {
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .footer .navigation {
