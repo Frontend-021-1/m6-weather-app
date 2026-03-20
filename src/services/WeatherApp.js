@@ -7,8 +7,8 @@ const formatFloatNumber = (num) => {
 export default class WeatherApp {
   weather = []; // clima de las ciudades
   cityForecast = []; // pronostico de 7 dias de UNA ciudad
-  #url = `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&aqi=no&lang=es`;
-  #urlForecast = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&days=7&aqi=no&alerts=no&lang=es`;
+  #url = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&aqi=no&lang=es`;
+  #urlForecast = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&days=7&aqi=no&alerts=no&lang=es`;
 
   // Obtener datos del clima actual de las 5 ciudades
   async fetchWeather(lugares) {
