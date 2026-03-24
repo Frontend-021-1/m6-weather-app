@@ -14,7 +14,9 @@ export default class WeatherApp {
   async fetchWeather(lugares) {
     try {
       const promises = lugares.map(async (lugar) => {
-        const response = await fetch(`${this.#url}&q=${lugar}`);
+        const response = await fetch(`${this.#url}&q=${lugar}`, {
+          cache: 'no-cache',
+        });
         return await response.json();
       });
 
@@ -26,7 +28,9 @@ export default class WeatherApp {
 
   async fetchWeatherByName(lugar) {
     try {
-      const response = await fetch(`${this.#urlForecast}&q=${lugar}`);
+      const response = await fetch(`${this.#urlForecast}&q=${lugar}`, {
+        cache: 'no-cache',
+      });
       if (!response.ok) {
         throw new Error('No se pudo obtener el clima de la ciudad');
       }
