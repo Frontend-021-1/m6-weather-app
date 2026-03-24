@@ -7,16 +7,14 @@ const formatFloatNumber = (num) => {
 export default class WeatherApp {
   weather = []; // clima de las ciudades
   cityForecast = []; // pronostico de 7 dias de UNA ciudad
-  #url = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&aqi=no&lang=es`;
-  #urlForecast = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&days=7&aqi=no&alerts=no&lang=es`;
+  #url = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&aqi=no&lang=es&${Date.now()}`;
+  #urlForecast = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&days=7&aqi=no&alerts=no&lang=es&${Date.now()}`;
 
   // Obtener datos del clima actual de las 5 ciudades
   async fetchWeather(lugares) {
     try {
       const promises = lugares.map(async (lugar) => {
-        const response = await fetch(`${this.#url}&q=${lugar}`, {
-          cache: 'no-cache',
-        });
+        const response = await fetch(`${this.#url}&q=${lugar}`);
         return await response.json();
       });
 
@@ -28,9 +26,7 @@ export default class WeatherApp {
 
   async fetchWeatherByName(lugar) {
     try {
-      const response = await fetch(`${this.#urlForecast}&q=${lugar}`, {
-        cache: 'no-cache',
-      });
+      const response = await fetch(`${this.#urlForecast}&q=${lugar}`);
       if (!response.ok) {
         throw new Error('No se pudo obtener el clima de la ciudad');
       }
